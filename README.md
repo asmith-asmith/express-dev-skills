@@ -1,15 +1,21 @@
 # My Dev Skills
 
-This is a basic express app.
+This is a basic express app. You can add, view, edit and delete dev skills.
 
-## App Images
-<!-- 
-ScreenShots
-![Start Screenshot](./imgs/img1-start.png)
-![Play Screenshot](./imgs/img2-play.png)
-![Win Screenshot](./imgs/img3-win.png)
-![LoseScreenshot](./imgs/img4-lose.png) -->
+## Run
 
+```
+npm install
+npm start
+```
+
+Open http://localhost:3000.
+
+## Test
+
+```
+npm test
+```
 
 ## Technologies Used
 

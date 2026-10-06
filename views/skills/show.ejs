@@ -8,11 +8,10 @@
     <title>Show Skill</title>
 </head>
 <body>
-    <body>
-        <h1>Skill - <%= skill.skill%></h1>
-        <h3><%= skill.id %></h3>
-        <h3>Proficiency: <%= skill.prof ? 'Fluent' : 'New' %></h3>
-        <a href="/skills/<%= skill.id %>/edit">Edit</a>
-      </body>
+    <h1>Skill - <%= skill.skill %></h1>
+    <h3><%= skill.id %></h3>
+    <h3>Proficiency: <%= skill.prof ? 'Fluent' : 'New' %></h3>
+    <a href="/skills/<%= skill.id %>/edit">Edit</a>
+    <a href="/skills">Back to skills</a>
 </body>
 </html>

@@ -1,7 +1,7 @@
 const skills = [
-    {skill: 'HTML', prof: 'true', id: 1},
-    {skill: 'CSS', prof: 'true', id: 2},
-    {skill: 'JavaScript', prof: 'true', id: 3},
+    {skill: 'HTML', prof: true, id: 1},
+    {skill: 'CSS', prof: true, id: 2},
+    {skill: 'JavaScript', prof: true, id: 3},
 ];
 
 module.exports = {
@@ -21,18 +21,24 @@ function getOne(id){
 }
 
 function create(body){
-    console.log(body)
-    body.id = skills.length+1;
-    body.prof = false;
-    skills.push(body);
+    // use the highest id + 1 so ids stay unique after a delete
+    const id = skills.reduce((max, s) => Math.max(max, s.id), 0) + 1;
+    const skill = {skill: body.skill, prof: false, id};
+    skills.push(skill);
+    return skill;
 }
 
 function deleteOne(id){
     const idx = skills.findIndex(skill => skill.id === parseInt(id));
+    if (idx === -1) return false;
     skills.splice(idx, 1);
+    return true;
 }
 
 function update(id, body){
-    const skillObj = skills.find(s => s.id === parseInt(id));
-    Object.assign(skillsObj, body);
+    const skillObj = getOne(id);
+    if (!skillObj) return null;
+    // only the name can change, so the form cannot overwrite the id
+    skillObj.skill = body.skill;
+    return skillObj;
 }
