@@ -9,6 +9,7 @@
 </head>
 <body>
     <h1>My Dev Skills</h1>
+    <ul>
     <% skills.forEach(function(s) { %>
         <li>
             <form action="/skills/<%= s.id %>?_method=DELETE"

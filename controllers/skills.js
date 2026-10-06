@@ -1,3 +1,4 @@
+const createError = require('http-errors');
 const skillsDB = require('../models/skills');
 
 module.exports = {
@@ -7,7 +8,7 @@ module.exports = {
     create,
     delete: deleteSkill,
     edit,
-    // update
+    update
 };
 
 function index(req, res, next) {
@@ -17,9 +18,9 @@ function index(req, res, next) {
 };
 
 function showStuff (req,res, next){
-    res.render('skills/show', {
-        skill: skillsDB.getOne(req.params.id)
-    });
+    const skill = skillsDB.getOne(req.params.id);
+    if (!skill) return next(createError(404));
+    res.render('skills/show', {skill});
 };
 
 function newSkill(req, res){
@@ -27,22 +28,25 @@ function newSkill(req, res){
 }
 
 function create(req, res){
-    skillsDB.create(req.body)
+    const name = (req.body.skill || '').trim();
+    if (name) skillsDB.create({skill: name});
     res.redirect('/skills');
 }
 
-function deleteSkill(req,res){
-    skillsDB.deleteOne(req.params.id);
+function deleteSkill(req,res, next){
+    if (!skillsDB.deleteOne(req.params.id)) return next(createError(404));
     res.redirect('/skills');
 }
 
-function edit(req, res){
-    console.log(req.params)
+function edit(req, res, next){
     const skill = skillsDB.getOne(req.params.id);
+    if (!skill) return next(createError(404));
     res.render('skills/edit', {skill})
 }
 
-function update(req,res){
-    skillsDB.update(req.params.id, req.body); // must send old id and new body (body of http request which is new skill)
-    res.redirect(`skills/${req.params.id}`);
+function update(req, res, next){
+    const name = (req.body.skill || '').trim();
+    if (!name) return res.redirect(`/skills/${req.params.id}/edit`);
+    if (!skillsDB.update(req.params.id, {skill: name})) return next(createError(404));
+    res.redirect(`/skills/${req.params.id}`);
 }
